@@ -1,6 +1,9 @@
 package br.com.devtarlley.apiusuarios.controller;
 
+import br.com.devtarlley.apiusuarios.config.security.JWTResponse;
+import br.com.devtarlley.apiusuarios.config.security.TokenService;
 import br.com.devtarlley.apiusuarios.dto.LoginDTO;
+import br.com.devtarlley.apiusuarios.model.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,15 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final AuthenticationManager manager;
+    private final TokenService tokenService;
 
-    public LoginController(AuthenticationManager manager) {
+    public LoginController(AuthenticationManager manager, TokenService tokenService) {
         this.manager = manager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
-    public ResponseEntity<String> login( @RequestBody @Valid LoginDTO loginDTO){
-            var token = new UsernamePasswordAuthenticationToken(loginDTO.email(),loginDTO.senha());
-        Authentication authentication = manager.authenticate(token);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<JWTResponse> login( @RequestBody @Valid LoginDTO loginDTO){
+            var authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.email(),loginDTO.senha());
+        Authentication authentication = manager.authenticate(authenticationToken);
+
+        String tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        return ResponseEntity.ok().body(new JWTResponse(tokenJWT));
     }
 }
