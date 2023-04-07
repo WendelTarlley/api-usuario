@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    show-sql: true
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/usuarios
+    username: postgres
+    password: motog
+    driverClassName: org.postgresql.Driver
+
+server:
+  port: 8081
+
