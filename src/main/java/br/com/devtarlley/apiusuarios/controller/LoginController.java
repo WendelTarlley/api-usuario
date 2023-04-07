@@ -1,7 +1,7 @@
 package br.com.devtarlley.apiusuarios.controller;
 
-import br.com.devtarlley.apiusuarios.config.security.JWTResponse;
-import br.com.devtarlley.apiusuarios.config.security.TokenService;
+import br.com.devtarlley.apiusuarios.dto.JWTResponse;
+import br.com.devtarlley.apiusuarios.service.security.TokenService;
 import br.com.devtarlley.apiusuarios.dto.LoginDTO;
 import br.com.devtarlley.apiusuarios.model.Usuario;
 import jakarta.validation.Valid;
